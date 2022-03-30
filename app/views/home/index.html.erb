@@ -1,0 +1,8 @@
+<h1>Home#index</h1>
+<%if user_signed_in? %>
+	<%= button_to 'Logout', destroy_user_session_path, method: :delete%>
+	<%= button_to 'Tickets Page', tickets_path, method: :get%>
+<%else%>
+	<%= link_to 'Sign In Page', new_user_registration_path%>
+	<%= link_to 'Log In Page', new_user_session_path%>
+<%end%>

@@ -1,7 +1,7 @@
-require 'freshdesk'
-
 class ApplicationController < ActionController::Base
-
-	Freshdesk::UserCredentials.email = 'something@enmail.com'
-
+	def load_user_defaults
+		if current_user.present?
+			@email = current_user.email
+		end
+	end
 end
