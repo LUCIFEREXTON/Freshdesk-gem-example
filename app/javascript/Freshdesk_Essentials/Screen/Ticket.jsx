@@ -34,7 +34,7 @@ const Ticket = () => {
 
   const statusChangeHandler = async(status) => {
     try{
-			const res = await axios.put(`/ticket/update/${id}`, { status })
+			const res = await axios.put(`/ticket/update/${id}`, { status, user_id: ticket.requester_id })
       setticket({...res.data})
       dispatch({type:'UPDATE_STATUS', ticket: {...res.data}})
     }catch(error){
