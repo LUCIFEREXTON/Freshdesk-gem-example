@@ -1,4 +1,6 @@
 import React,{useEffect, useState, useCallback, useRef} from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Dropdown from './Inputs/Dropdown'
 import DependableDropdown from './Inputs/DependableDropdown'
@@ -7,6 +9,8 @@ import Checkbox from './Inputs/Checkbox'
 import Text from './Inputs/Text'
 
 const Inputs = ({})=>{
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 	//handling file inputs
 	const [files, changeFiles] = useState([]);
 	const fileUploadRef = useRef();
@@ -20,9 +24,36 @@ const Inputs = ({})=>{
     changeFiles([...files.filter(file => file.name !== fileName)]);
   }
 	const submitHandler = (e)=>{
-		console.log(formData);
 		e.preventDefault();
-	}
+		console.log(formData);
+		let ticketData = new FormData();
+		const custom_fields = {}
+		for(const key in formData) {
+			const value = formData[key];
+			if(key.includes('cf') && value !== ''){
+				custom_fields[key] = value
+			}else{
+				ticketData.append(`${key}`, value)
+			}
+		}
+		if(Object.keys(custom_fields).length >0) ticketData.append('custom_fields', JSON.stringify(custom_fields))
+		files.forEach(file => ticketData.append("attachments[]",file));
+		console.log(ticketData);
+		axios.post(`/ticket/create`, ticketData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+      .then(res => {
+				console.log(res);
+        dispatch({type:'CREATE_TICKET', ticket: res.data})
+				navigate('/')
+      })
+      .catch(error=>{
+        dispatch({type:'ERROR', error: error.response.data.message})
+      })
+
+		}
 	//rendring diffrent input fields acc to ticket fields
 	const renderElement = (field) => {
 		switch (field.type) {
@@ -68,22 +99,18 @@ const Inputs = ({})=>{
 	}, [data])
 	//onchnage events for handling form
 	const changeEditorState = useCallback((editorState, name) => {
-		console.log(formData)
-		console.log(name, editorState)
 		if(editorState!==formData[name]){
 			setFormData({...formData, [name]: editorState})
 		}
 	},[formData])
 	const onChange = (e) => {
 		if(e.target.value && e.target.value!==formData[e.target.dataset.name]){
-			console.log(e.target.dataset.name, e.target.value);
 			setFormData({...formData, [e.target.dataset.name]:e.target.value})
 		}
 	}
 	const dependentChange = (namesArr, valueArr) => {
 		let temp = {...formData}
 		namesArr.forEach((name, i)=> {
-			console.log(name, valueArr[i])
 			temp = {...temp, [name]: valueArr[i]}
 		})
 		setFormData({...temp})
@@ -126,23 +153,16 @@ const Inputs = ({})=>{
 
 export default Inputs
 
-// {data?.length && <DependableDropdown field={data[2]} />}
-// <Dropdown optionArray={data[6]?.choices} name={data[6]?.label}/>
-// <TextArea name={data[9]?.label} />
-// <Checkbox name={data[1]?.label} />
-// <Text field={data[3]} />
-// <Text field={data[4]} />
-// <Text field={data[5]} />
-// <Text field={data[8]} />
 
-// custom_text => text => 1
-// custom_paragraph => textarea => 2
-// custom_checkbox => checkbox => 3
-// custom_dropdown => select => 4
-// nested_field => nested_dropdown => 5
-// custom_date => date => 6
-// custom_number => number => 7
-// custom_decimal => decimal => 8
+
+// custom_text => text
+// custom_paragraph => textarea
+// custom_checkbox => checkbox
+// custom_dropdown => select
+// nested_field => nested_dropdown
+// custom_date => date
+// custom_number => number
+// custom_decimal => decimal
 //
 //	[
 //			{

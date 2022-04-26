@@ -51,7 +51,6 @@ function DependableDropdown({field, changeHandler, ...rest}) {
       depth.current++;
       setOptionsArr([...tempOpArr])
     }
-    console.log(seletectedoptionArr)
     changeHandler(names_arr, seletectedoptionArr)
   }, [seletectedoptionArr])
 

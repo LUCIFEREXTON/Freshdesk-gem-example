@@ -13,16 +13,6 @@ import Create from './Create';
 
 const MainPage = () =>{
 		return(
-		// <Layout>
-		// 	<Filter />
-		// 	<AllTickets/>
-		// 	<Modal id='newTicketModal'>
-		// 		<CreateTicket/>
-		// 	</Modal>						
-		// 	<Modal id='viewTicketModal'>
-		// 		<Ticket/>
-		// 	</Modal>						
-		// </Layout>
 		<Routes>
 			<Route
 				path='/'
@@ -49,21 +39,28 @@ const MainPage = () =>{
 		</Routes>
 		// <Routes>
 		// 	<Route path="/faq/*" element={<Faq/>} />
-		// 	<Route 
-		// 		path="/"
-		// 		element={
-		// 			<Layout>
-		// 				<Filter />
-		// 				<AllTickets/>
-		// 				<Modal id='newTicketModal'>
-		// 					<CreateTicket/>
-		// 				</Modal>						
-		// 				<Modal id='viewTicketModal'>
-		// 					<Ticket/>
-		// 				</Modal>						
-		// 			</Layout>
-		// 		}
-		// 	/>
+		// 	<Route
+		//	 	path='/'
+		//	 	element={
+		//	 		<Layout>
+		//	 			<Filter />
+		//	 			<AllTickets />
+		//	 		</Layout>
+		//	 	}
+		//	 />
+		//	 <Route
+		//	 	path='/new'
+		//	 	element={
+		//	 		<Create/>
+		//	 		// <CreateTicket />
+		//	 	}
+		//	 />
+		//	 <Route
+		//	 	path='/view/:user_id/:id'
+		//	 	element={
+		//	 		<Ticket />
+		//	 	}
+		//	 />
 		// </Routes>
 	)
 }

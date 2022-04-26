@@ -6,15 +6,7 @@ class ApplicationController < ActionController::Base
       @email = current_user.email
       @user_details = {
         :gid => "12345",
-        :name => current_user.email,
-        :blog_uri => [
-          "https://google.com",
-          "https://facebook.com",
-          "https://youtube.com",
-          "https://twitter.com",
-          "https://amazon.com",
-          "https://blogvault.net"
-        ]
+        :name => current_user.email
       }
       @per_page = 10
       @tickets_per_request = 100

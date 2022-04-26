@@ -54,7 +54,6 @@ const Filter = () =>{
   const fetchTickets = useCallback(async(pageno)=>{
     if(!callable) return
     if(all_fetched || !pageno) return
-    console.log(pageno)
     try{
       const { data } = await axios.get(`/ticket/index`,{
         params:{
@@ -63,7 +62,6 @@ const Filter = () =>{
       })
       dispatch({type:'OPEN_CLOSE_TICKETS', tickets: {...data}, replace: pageno === 1})
     }catch(event){
-      console.log(event)
       dispatch({type: 'ALL_FETCHED', status: true})
       dispatch({type:'ERROR', error: event.response.data.message})
     }
@@ -84,7 +82,6 @@ const Filter = () =>{
     const not_enough_open_ticket = no_of_open_tickets < ticket_per_page//do we have not have enough open tickets that we can fill our view
     if(!all_fetched && not_enough_open_ticket){
       //if all tickets are not fetched and we dont have enough open tickets to show then refetch
-      console.log(open.length,close.length)
       const required_page = Math.floor((open.length+close.length)/tickets_per_request + 1)
       if(required_page) fetchTickets(required_page)
       return

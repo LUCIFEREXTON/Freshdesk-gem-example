@@ -1,17 +1,10 @@
 const initialState = {
-  tickets: [],
   filter_list: null,
   open: [],
   close: [],
-  next_open: 0,
-  next_close: 0,
-  conversation_list: [],
-  ticket: {},
-  total: 0,
   ticket_page: 1,
   ticket_per_page: 10,
   tickets_per_request: 100,
-	selected_ticketId: null,
   filter_type: '1',
   sort_type: 'updated_at',
   all_fetched:false,
@@ -33,7 +26,6 @@ const reducer = (state = initialState, action) => {
         ...state,
 				open,
 				close,
-        total: open.length+close.length,
         all_fetched: incoming_length < state.tickets_per_request
       }
     }
@@ -86,18 +78,10 @@ const reducer = (state = initialState, action) => {
         }
       }
     }
-    case 'SAVE_TICKET':{
-      return {
-        ...state,
-        ticket: {...action.ticket}
-      }
-    }
     case 'CREATE_TICKET':{
       return {
         ...state,
-        tickets : [action.ticket, ...state.tickets],
-        filter_list: [action.ticket, ...state.filter_list],
-        total: state.total + 1
+        open: [action.ticket, ...state.open]
       }
     }
     case 'UPDATE_STATUS':{
@@ -132,30 +116,12 @@ const reducer = (state = initialState, action) => {
         all_showed: action.filter_list.length < state.ticket_per_page
       }
     }
-    case 'SHOW_TICKET':{
-      return {
-        ...state,
-        selected_ticketId : action.id
-      }
-    }
-    case 'UPDATE_CONVERSATIONS':{
-      return {
-        ...state,
-        conversation_list: action.conversation_list
-      }
-    }
     case 'INSERT_CATEGORY':{
       if(state.folder_list.includes(action.folderId))
         return state
       return {
         ...state,
         folderList: [...state.folder_list, action.folderId]
-      }
-    }
-    case 'REMOVE_CATEGORY':{
-      return {
-        ...state,
-        folderList: state.folder_list.filter(folderId=>folderId!==action.folderId)
       }
     }
     case 'UPDATE_ARTICLES':{
