@@ -4,7 +4,6 @@ import Layout from '../Components/Tickets/Layout';
 import AllTickets from '../Components/Tickets/AllTickets';
 import Filter from '../Components/Tickets/Filter';
 import { Routes, Route, useLocation  } from "react-router-dom";
-import CreateTicket from './CreateTicket';
 import Ticket from './Ticket';
 // import Faq from './Faq';
 
@@ -27,13 +26,14 @@ const MainPage = () =>{
 				path='/new'
 				element={
 					<Create/>
-					// <CreateTicket />
 				}
 			/>
 			<Route
 				path='/view/:user_id/:id'
 				element={
+					<Layout>
 					<Ticket />
+					</Layout>
 				}
 			/>
 		</Routes>
@@ -52,7 +52,7 @@ const MainPage = () =>{
 		//	 	path='/new'
 		//	 	element={
 		//	 		<Create/>
-		//	 		// <CreateTicket />
+		//	 		// <Create />
 		//	 	}
 		//	 />
 		//	 <Route

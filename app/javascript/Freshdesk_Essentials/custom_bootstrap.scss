@@ -19,6 +19,8 @@ $border-widths: (
   10: 10px
 );
 
+$form-floating-label-transform:   scale(.7) translateY(-.6rem) translateX(.15rem) !default;
+
 .create-ticket .DraftEditor-editorContainer,.create-ticket .DraftEditor-root,.create-ticket .public-DraftEditor-content{
   height: unset;
 }
